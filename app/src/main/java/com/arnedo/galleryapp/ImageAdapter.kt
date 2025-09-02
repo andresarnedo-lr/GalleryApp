@@ -1,0 +1,38 @@
+package com.arnedo.galleryapp
+
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
+import android.widget.ImageView
+import androidx.recyclerview.widget.RecyclerView
+import coil.load
+
+class ImageAdapter (private val image: List<Int>, private val onClick: (Int) -> Unit) : RecyclerView.Adapter<ImageAdapter.ImageViewHolder>(){
+    class ImageViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView){
+        val imageView: ImageView = itemView.findViewById(R.id.imageView)
+    }
+
+    override fun onCreateViewHolder(
+        parent: ViewGroup,
+        viewType: Int
+    ): ImageViewHolder {
+        val view = LayoutInflater.from(parent.context).inflate(R.layout.item_image, parent, false)
+        return ImageViewHolder(view)
+    }
+
+    override fun onBindViewHolder(holder: ImageViewHolder, position: Int) {
+        val imageId = image[position]
+
+        holder.imageView.load(imageId){
+            crossfade(true)
+        }
+
+        holder.itemView.setOnClickListener {
+            onClick(imageId)
+        }
+    }
+
+
+    override fun getItemCount() = image.size
+
+}
